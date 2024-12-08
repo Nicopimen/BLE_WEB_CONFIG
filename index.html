@@ -206,7 +206,7 @@
             characteristic.startNotifications();
             console.log("Notifications Started Estado.");
           //  return bleServiceFound.getCharacteristic(TIME_ESTADO_CHARACTERISTIC_UUID); // characteristic.readValue();
-            return bleServiceFound.getCharacteristic(PARAMETRO_CHARACTERISTIC_UUID);
+           
         })
 
        /*
@@ -215,12 +215,12 @@
            characteristic.startNotifications();
            console.log("Notifications Started tiempo .");
           return bleServiceFound.getCharacteristic(PARAMETRO_CHARACTERISTIC_UUID);
-        })*/
+        })
         .then(characteristic => {
            characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChangeParametro);
            characteristic.startNotifications();
            console.log("Notifications Started parametro .");
-           //leerParametro();
+           leerParametro();
         })
         /*.then(value => {
             console.log("Read value: ", value);
@@ -255,13 +255,13 @@
         for (var i=0; i<opcionesTextuales.length; i++) {
           var dir = opcionesTextuales[i][0];
           if(dir==lastDirParam){
-            //es textual
-            console.log("Es un parametro textual: ", parseInt(newValueReceived) + 1);
-            parametroLeido.value = opcionesTextuales[i][parseInt(newValueReceived) + 1];
-            return; 
-          }
+                //es textual
+                console.log("Es un parametro textual: ", parseInt(newValueReceived) + 1);
+                parametroLeido.value = opcionesTextuales[i][parseInt(newValueReceived) + 1];
+                return; 
+              }
         
-    }
+         }
         //es numerico  
         parametroLeido.value = newValueReceived;
      }
@@ -312,6 +312,22 @@
 
                     readCharacteristic(ALTO_BAJO_CHARACTERISTIC_UUID);
                 }
+                if(caracteristica==PARAMETRO_CHARACTERISTIC_UUID){
+                    const newValueReceived = new TextDecoder().decode(value);
+                    console.log("Characteristic value changed: ", newValueReceived);
+                    for (var i=0; i<opcionesTextuales.length; i++) {
+                      var dir = opcionesTextuales[i][0];
+                      if(dir==lastDirParam){
+                            //es textual
+                            console.log("Es un parametro textual: ", parseInt(newValueReceived) + 1);
+                            parametroLeido.value = opcionesTextuales[i][parseInt(newValueReceived) + 1];
+                            return; 
+                          }
+                    
+                     }
+                    //es numerico  
+                    parametroLeido.value = newValueReceived;
+                }
                         
             })
             .catch(error => {
@@ -323,7 +339,7 @@
         }
     }
 
-    function writeOnCharacteristic(value, caracteristica){
+   async function writeOnCharacteristic(value, caracteristica){
         
         /*if(caracteristica.localeCompare(ALTO_BAJO_CHARACTERISTIC_UUID)==0){
             if(abfButton.innerText.localeCompare("BAJO FUEGO")==0){
@@ -367,7 +383,7 @@
         
     }
 
-    function leerParametro(){
+     function leerParametro(){
         var e = document.getElementById("seleParm");
         var dir = e.value; //direccion a leer
         var parametro = e.options[e.selectedIndex].text;
@@ -376,6 +392,13 @@
          console.log('leo el parametro:',parametro.concat(" ").concat(dir));
         
         writeOnCharacteristic(dir, PARAMETRO_CHARACTERISTIC_UUID);
+         .then(() => {
+              readCharacteristic(PARAMETRO_CHARACTERISTIC_UUID); 
+            })
+            .catch(error => {
+                console.error("Erroral leer el parametro: ", error);
+            });
+      
         
     }
 
