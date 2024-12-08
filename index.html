@@ -43,6 +43,7 @@
                 <h2>Parametros</h2>
                 
                         <select  id="seleParm" onchange="leerParametro()" >
+                            <option value="0">seleccionar</option>
                             <option value="1">TIEMPO_BARRIDO</option>
                             <option value="2">TIEMPO_ENCENDIDO</option>
                             <option value="3">TIEMPO_PRE_ENCENDIDO</option>
@@ -388,20 +389,19 @@
         var dir = e.value; //direccion a leer
         var parametro = e.options[e.selectedIndex].text;
         lastDirParam=dir;
-        //escribo la direccion del parametro, 
+        //escribo la direccion del parametro, y luego de 2seg leo su valor
          console.log('leo el parametro:',parametro.concat(" ").concat(dir));
-        
         writeOnCharacteristic(dir, PARAMETRO_CHARACTERISTIC_UUID);
         lecturaParamAsync();
       
         
     }
-// funcion lectura parametro , se ejecuta luego de 3 seg
-    function resolveAfter3Seconds() {
+// funcion lectura parametro , se ejecuta luego de 2 seg
+    function resolveAfter2Seconds() {
       return new Promise((resolve) => {
         setTimeout(() => {
           readCharacteristic(PARAMETRO_CHARACTERISTIC_UUID); 
-        }, 3000);
+        }, 2000);
       });
     }
 
