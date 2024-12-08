@@ -392,7 +392,7 @@
          console.log('leo el parametro:',parametro.concat(" ").concat(dir));
         
         writeOnCharacteristic(dir, PARAMETRO_CHARACTERISTIC_UUID);
-        await resolveAfter3Seconds();
+        lecturaParamAsync();
       
         
     }
@@ -404,6 +404,11 @@
         }, 3000);
       });
     }
+
+async function lecturaParamAsync() {
+      await resolveAfter3Seconds();
+}
+
 
     function disconnectDevice() {
         console.log("Disconnect Device.");
