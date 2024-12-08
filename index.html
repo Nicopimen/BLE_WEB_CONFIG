@@ -304,13 +304,13 @@
                             abfButton.innerText="ALTO FUEGO";
                         }else
                             abfButton.innerText="BAJO FUEGO";
+                    
                 }
                 if(caracteristica==TIME_ESTADO_CHARACTERISTIC_UUID){
                      const newValueReceived = new TextDecoder().decode(value);
                      console.log("Characteristic value changed: ", newValueReceived);
-                    timesEstadoContainer.innerHTML = newValueReceived;
-
-                    readCharacteristic(ALTO_BAJO_CHARACTERISTIC_UUID);
+                     timesEstadoContainer.innerHTML = newValueReceived;
+                     readCharacteristic(ALTO_BAJO_CHARACTERISTIC_UUID);
                 }
                 if(caracteristica==PARAMETRO_CHARACTERISTIC_UUID){
                     const newValueReceived = new TextDecoder().decode(value);
@@ -339,7 +339,7 @@
         }
     }
 
-   async function writeOnCharacteristic(value, caracteristica){
+    function writeOnCharacteristic(value, caracteristica){
         
         /*if(caracteristica.localeCompare(ALTO_BAJO_CHARACTERISTIC_UUID)==0){
             if(abfButton.innerText.localeCompare("BAJO FUEGO")==0){
@@ -392,14 +392,17 @@
          console.log('leo el parametro:',parametro.concat(" ").concat(dir));
         
         writeOnCharacteristic(dir, PARAMETRO_CHARACTERISTIC_UUID);
-         .then(() => {
-              readCharacteristic(PARAMETRO_CHARACTERISTIC_UUID); 
-            })
-            .catch(error => {
-                console.error("Erroral leer el parametro: ", error);
-            });
+        await resolveAfter3Seconds();
       
         
+    }
+// funcion lectura parametro , se ejecuta luego de 3 seg
+    function resolveAfter3Seconds() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          readCharacteristic(PARAMETRO_CHARACTERISTIC_UUID); 
+        }, 3000);
+      });
     }
 
     function disconnectDevice() {
