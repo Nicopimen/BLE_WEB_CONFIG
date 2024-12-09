@@ -322,13 +322,14 @@
                       var dir = opcionesTextuales[i][0];
                       if(dir==lastDirParam){
                             //es textual
-                           lastDirParamIsTexto="isTextual";
+                           lastDirParamIsTexto=1;
                             console.log("Es un parametro textual: ", parseInt(newValueReceived) + 1);
                             parametroLeido.value = opcionesTextuales[i][parseInt(newValueReceived) + 1];
                           //agrego opciones posibles
                              var x = document.getElementById('selecText');
                              for (var k = 1; k < opcionesTextuales[i].length; k++) {
                               var c = document.createElement("option");
+                              c.value = (k-1).toString();   
                               c.text = opcionesTextuales[i][k];
                               x.options.add(c, k);
                              }
@@ -337,7 +338,7 @@
                     
                      }
                     //es numerico  
-                    lastDirParamIsTexto="isNumerico";
+                    lastDirParamIsTexto=0;
                     parametroLeido.value = newValueReceived;
                 }
                         
@@ -387,7 +388,14 @@
         var e = document.getElementById("seleParm");
         var dir = e.value; //direccion a leer
         var parametro = e.options[e.selectedIndex].text;
-        var valor =  parametroLeido.value;
+        
+        var valor;
+        if(lastDirParamIsTexto){
+             var st = document.getElementById("selecText");
+             valor =  st.value;
+        }else
+            valor =  parametroLeido.value;
+        
         var toSend =dir.concat(",").concat(valor);
         //escribo la direccion del parametro, 
          console.log('ecribo el parametro:',parametro.concat(" ").concat(toSend));
