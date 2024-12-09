@@ -434,8 +434,8 @@
     function resolveAfter3Seconds() {
       return new Promise((resolve) => {
         setTimeout(() => {
-          readCharacteristic(PARAMETRO_CHARACTERISTIC_UUID); 
-        }, 5000);
+          leerParametro();
+        }, 4000);
       });
     }
     
