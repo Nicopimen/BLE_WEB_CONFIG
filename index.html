@@ -325,7 +325,7 @@
                             parametroLeido.value = opcionesTextuales[i][parseInt(newValueReceived) + 1];
                           //agrego opciones posibles
                              var x = document.getElementById("selecText");
-                             for (var k = 1; i < opcionesTextuales[i].length; k++) {
+                             for (var k = 1; k < opcionesTextuales[i].length; k++) {
                               var c = document.createElement("option");
                               c.text = opcionesTextuales[i][k];
                               x.options.add(c, k);
