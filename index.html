@@ -79,6 +79,7 @@
            
                 <label for="fname"> : </label>
                 <input id="parLeido" name="fname">
+                <select id="selecText"> <option value=""></option></select>
                 <button id="actButton" class="onButton">Actualizar</button> 
                 
             </div>
@@ -322,6 +323,13 @@
                             //es textual
                             console.log("Es un parametro textual: ", parseInt(newValueReceived) + 1);
                             parametroLeido.value = opcionesTextuales[i][parseInt(newValueReceived) + 1];
+                          //agrego opciones posibles
+                             var x = document.getElementById("selecText");
+                             for (var k = 1; i < opcionesTextuales[i].length; k++) {
+                              var c = document.createElement("option");
+                              c.text = opcionesTextuales[i][k];
+                              x.options.add(c, k);
+                             }
                             return; 
                           }
                     
