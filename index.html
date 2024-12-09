@@ -106,6 +106,7 @@
     const timestampContainer = document.getElementById('timestamp');
     const timesEstadoContainer = document.getElementById('tiempoState');
     const parametroLeido = document.getElementById('parLeido');
+    const selecTextos = document.getElementById('selecText');
     
 
     //Define BLE Device Specs
@@ -318,6 +319,7 @@
                 if(caracteristica==PARAMETRO_CHARACTERISTIC_UUID){
                     const newValueReceived = new TextDecoder().decode(value);
                     console.log("Characteristic value changed: ", newValueReceived);
+                     selecTextos.innerHTML = null; // limpio las anteriores
                     for (var i=0; i<opcionesTextuales.length; i++) {
                       var dir = opcionesTextuales[i][0];
                       if(dir==lastDirParam){
@@ -326,13 +328,13 @@
                             console.log("Es un parametro textual: ", parseInt(newValueReceived) + 1);
                             parametroLeido.value = opcionesTextuales[i][parseInt(newValueReceived) + 1];
                           //agrego opciones posibles
-                             var x = document.getElementById('selecText');
-                              x.innerHTML = null; // limpio las anteriores
+                            //var x = document.getElementById('selecText');
+                             // x.innerHTML = null; // limpio las anteriores
                              for (var k = 1; k < opcionesTextuales[i].length; k++) {
                               var c = document.createElement("option");
-                              c.value = (k-1).toString();   
+                              c.value = (k-1).toString();  //valor en numeros pasado en string 
                               c.text = opcionesTextuales[i][k];
-                              x.options.add(c, k);
+                              selecTextos.options.add(c, k);
                              }
                             return; 
                           }
@@ -392,8 +394,8 @@
         
         var valor;
         if(lastDirParamIsTexto){
-             var st = document.getElementById("selecText");
-             valor =  st.value;
+            // var st = document.getElementById("selecText");
+             valor =  selecTextos.value;
         }else
             valor =  parametroLeido.value;
         
