@@ -136,6 +136,7 @@
    ];
 
    var lastDirParam;
+    var lastDirParamIsTexto;
     
     // Connect Button (search for BLE Devices only if BLE is available)
     connectButton.addEventListener('click', (event) => {
@@ -321,10 +322,11 @@
                       var dir = opcionesTextuales[i][0];
                       if(dir==lastDirParam){
                             //es textual
+                           lastDirParamIsTexto="isTextual";
                             console.log("Es un parametro textual: ", parseInt(newValueReceived) + 1);
                             parametroLeido.value = opcionesTextuales[i][parseInt(newValueReceived) + 1];
                           //agrego opciones posibles
-                             var x = document.getElementById("selecText");
+                             var x = document.getElementById('selecText');
                              for (var k = 1; k < opcionesTextuales[i].length; k++) {
                               var c = document.createElement("option");
                               c.text = opcionesTextuales[i][k];
@@ -335,6 +337,7 @@
                     
                      }
                     //es numerico  
+                    lastDirParamIsTexto="isNumerico";
                     parametroLeido.value = newValueReceived;
                 }
                         
