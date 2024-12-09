@@ -355,6 +355,8 @@
         }
     }
 
+    
+
     function writeOnCharacteristic(value, caracteristica){
         
         /*if(caracteristica.localeCompare(ALTO_BAJO_CHARACTERISTIC_UUID)==0){
@@ -403,6 +405,7 @@
         //escribo la direccion del parametro, 
          console.log('ecribo el parametro:',parametro.concat(" ").concat(toSend));
         writeOnCharacteristic(toSend, PARAMETRO_CHARACTERISTIC_UUID);
+        lecturaParam3Async(); //luego de escribir, 3seg y leo para confirmar
         
     }
 
@@ -427,10 +430,24 @@
         }, 2000);
       });
     }
+// funcion lectura parametro , se ejecuta luego de 3.5 seg
+    function resolveAfter3Seconds() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          readCharacteristic(PARAMETRO_CHARACTERISTIC_UUID); 
+        }, 3500);
+      });
+    }
+    
 
 async function lecturaParamAsync() {
       await resolveAfter2Seconds();
 }
+
+ async function lecturaParam3Async() {
+      await resolveAfter3Seconds();
+}
+
 
 
     function disconnectDevice() {
